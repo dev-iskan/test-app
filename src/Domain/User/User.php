@@ -15,11 +15,6 @@ class User implements JsonSerializable
     /**
      * @var string
      */
-    private $username;
-
-    /**
-     * @var string
-     */
     private $firstName;
 
     /**
@@ -28,17 +23,29 @@ class User implements JsonSerializable
     private $lastName;
 
     /**
-     * @param int|null  $id
-     * @param string    $username
-     * @param string    $firstName
-     * @param string    $lastName
+     * @var string
      */
-    public function __construct(?int $id, string $username, string $firstName, string $lastName)
+    private $phone;
+
+    /**
+     * @var array
+     */
+    private $roles;
+
+    /**
+     * @param int|null $id
+     * @param string $firstName
+     * @param string $lastName
+     * @param string $phone
+     * @param array $roles
+     */
+    public function __construct(?int $id, string $firstName, string $lastName, string $phone, array $roles = [])
     {
         $this->id = $id;
-        $this->username = strtolower($username);
         $this->firstName = ucfirst($firstName);
         $this->lastName = ucfirst($lastName);
+        $this->phone = $phone;
+        $this->roles = $roles;
     }
 
     /**
@@ -47,14 +54,6 @@ class User implements JsonSerializable
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUsername(): string
-    {
-        return $this->username;
     }
 
     /**
@@ -74,15 +73,32 @@ class User implements JsonSerializable
     }
 
     /**
+     * @return string
+     */
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    /**
      * @return array
      */
     public function jsonSerialize()
     {
         return [
             'id' => $this->id,
-            'username' => $this->username,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
+            'phone' => $this->phone,
+            'roles' => $this->roles
         ];
     }
 }

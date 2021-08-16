@@ -5,17 +5,17 @@ namespace App\Application\Actions\User;
 
 use Psr\Http\Message\ResponseInterface as Response;
 
-class ViewUserAction extends UserAction
+class ViewUserByPhoneAction extends UserAction
 {
     /**
      * {@inheritdoc}
      */
     protected function action(): Response
     {
-        $userId = (int) $this->resolveArg('id');
-        $user = $this->userRepository->findUserOfId($userId);
+        $phone = (string)$this->resolveArg('phone');
+        $user = $this->userRepository->findUserByPhone($phone);
 
-        $this->logger->info("User of id `${userId}` was viewed.");
+        $this->logger->info("User of phone `${phone}` was viewed.");
 
         return $this->respondWithData($user);
     }
