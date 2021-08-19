@@ -16,4 +16,3 @@ services:
         volumes:
             - .:/var/www
             - logs:/var/www/logs
-    mongo:

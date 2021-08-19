@@ -2,38 +2,39 @@
 declare(strict_types=1);
 
 namespace App\Domain\User;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 use JsonSerializable;
 
+/** @ODM\Document */
 class User implements JsonSerializable
 {
     /**
-     * @var int|null
+     * @ODM\Id
      */
-    private $id;
+    private ?int $id;
 
     /**
-     * @var string
+     * @ODM\Field(type="string")
      */
-    private $firstName;
+    private string $firstName;
 
     /**
-     * @var string
+     * @ODM\Field(type="string")
      */
-    private $lastName;
+    private string $lastName;
 
     /**
-     * @var string
+     * @ODM\Field(type="string")
      */
-    private $phone;
+    private string $phone;
 
     /**
-     * @var array
+     * @ODM\Field (type="collection")
      */
-    private $roles;
+    private array $roles;
 
     /**
-     * @param int|null $id
      * @param string $firstName
      * @param string $lastName
      * @param string $phone

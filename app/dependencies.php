@@ -3,6 +3,11 @@ declare(strict_types=1);
 
 use App\Application\Settings\SettingsInterface;
 use DI\ContainerBuilder;
+use Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\ODM\MongoDB\Configuration;
+use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver;
+use MongoDB\Client;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
@@ -24,6 +29,17 @@ return function (ContainerBuilder $containerBuilder) {
             $logger->pushHandler($handler);
 
             return $logger;
+        },
+        DocumentManager::class => function (ContainerInterface $c) {
+            $config = new Configuration();
+            $config->setProxyDir(__DIR__ . '/Proxies');
+            $config->setProxyNamespace('Proxies');
+            $config->setHydratorDir(__DIR__ . '/Hydrators');
+            $config->setHydratorNamespace('Hydrators');
+            $config->setDefaultDB('test-app');
+            $config->setMetadataDriverImpl(AnnotationDriver::create(__DIR__ . '/../src/Domain/User'));
+
+            return DocumentManager::create(null, $config);
         },
     ]);
 };
